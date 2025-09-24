@@ -113,7 +113,7 @@ You can download all SIDA versions from the following links:
 ### SAM VIT-H weights
 Download SAM ViT-H pre-trained weights from the [link](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
 
-### Training
+### Training SIDA
 ```
 deepspeed --master_port=24999 train_SIDA.py \
   --version="/path_to/LISA-7B-v1" \
@@ -148,9 +148,20 @@ CUDA_VISIBLE_DEVICES="" python3 merge_lora_weights_and_save_hf_model.py \
   --save_path="./ck/SIDA-7B"
 ```
 
-### Training description model
+### Training SIDA_description model
 You can run the `train_SIDA_description.sh` script to fine-tune SIDA-7B/13B using labeled data. Please download the 3K description dataset from the provided [link](https://drive.google.com/file/d/1tGIe1mWvdRFRqBeY4vADY3y90Y-kJEGZ/view?usp=sharing).
 
+```
+deepspeed --master_port=24999 train_SIDA_description.py \
+  --version="./ck/SIDA-7B" \
+  --dataset_dir='/path_to/text_label_images/' \
+  --vision_pretrained="./ck/sam_vit_h_4b8939.pth" \
+  --val_dataset="/path_to/text_label_images/"\
+  --batch_size=2 \
+  --exp_name="SIDA-7B-description" \
+  --epochs=5 \
+ --steps_per_epoch=100 \
+```
 ### Validation
 ```
 deepspeed --master_port=24999 train_SIDA.py \
@@ -200,11 +211,12 @@ Visual Inconsistencies:<lighting> The lighting on the tampered area does not mat
 ## Citation 
 
 ```
-@misc{huang2025sidasocialmediaimage,
-      title={SIDA: Social Media Image Deepfake Detection, Localization and Explanation with Large Multimodal Model}, 
-      author={Zhenglin Huang and Jinwei Hu and Xiangtai Li and Yiwei He and Xingyu Zhao and Bei Peng and Baoyuan Wu and Xiaowei Huang and Guangliang Cheng},
-      year={2025},
-      booktitle={Conference on Computer Vision and Pattern Recognition}
+@inproceedings{DBLP:conf/cvpr/HuangHLH00W0C25,
+  author       = {Zhenglin Huang and Jinwei Hu and Xiangtai Li and Yiwei He and Xingyu Zhao and Bei Peng and Baoyuan Wu and Xiaowei Huang and Guangliang Cheng},
+  title        = {{SIDA:} Social Media Image Deepfake Detection, Localization and Explanation
+                  with Large Multimodal Model},
+  booktitle    = {{IEEE/CVF} Conference on Computer Vision and Pattern Recognition(CVPR) 2025},
+  year         = {2025},
 }
 ```
 
