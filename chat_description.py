@@ -90,11 +90,12 @@ def main(args):
 
     # Create model
     tokenizer = AutoTokenizer.from_pretrained(
-        args.version,
+        pretrained_model_name_or_path=args.version,
         cache_dir=None,
         model_max_length=args.model_max_length,
         padding_side="right",
         use_fast=False,
+        local_files_only=True
     )
     tokenizer.pad_token = tokenizer.unk_token
     num_added_token = tokenizer.add_tokens("[END]")
